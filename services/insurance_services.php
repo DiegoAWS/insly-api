@@ -36,10 +36,10 @@ function get_cost_data($car_price, $tax_percentage, $base_price_policy, $is_base
     ];
 };
 
-function calculate_insurance($car_price, $tax_percentage, $number_of_policies, $week_day, $hour_of_day)
+function calculate_insurance($car_price, $tax_percentage, $number_of_policies, $base_price_policy)
 {
 
-    $base_price_policy = get_base_price_policy($week_day, $hour_of_day);
+ 
 
     $output_data = [
         'policy' => get_cost_data($car_price, $tax_percentage, $base_price_policy, true),

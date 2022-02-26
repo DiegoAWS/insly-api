@@ -13,7 +13,7 @@ try {
 
     // With named parameters
     router('GET', '^/$', function () {
-        echo "Server ONLINE";
+        echo 'Server ONLINE';
     });
 
     // POST request to /api
@@ -37,11 +37,11 @@ try {
 
         $user_ip_info = get_user_local_time();
 
-        $datetime_from_ip='';
+        $datetime_from_ip = '';
         $user_time_coincide = false;
 
         // If user ip is invalid $user_ip_info will be an error message (string)
-        if (! is_string($user_ip_info)) {
+        if (!is_string($user_ip_info)) {
 
             $datetime_from_ip = $user_ip_info['date'];
             $week_day_from_ip = date('w', $datetime_from_ip->getTimestamp());
@@ -49,12 +49,23 @@ try {
 
             $user_time_coincide = ($week_day == $week_day_from_ip && $hour_of_day == $hour_of_day_from_ip);
 
-            $datetime_from_ip=$datetime_from_ip->format(DATE_ATOM);
+            $datetime_from_ip = $datetime_from_ip->format(DATE_ATOM);
 
             $user_ip_info = $user_ip_info['location'];
-        } 
+        }
 
+        $base_price_policy = get_base_price_policy($week_day, $hour_of_day);
 
+        $insurance_data = calculate_insurance($car_price, $tax_percentage, $number_of_policies, $base_price_policy);
+
+        $data_keys = ['value', 'base_premium', 'commission', 'tax', 'total_cost'];
+        $data_labels = [
+            'Value',
+            'Base Premium(' . $base_price_policy . '%)',
+            'Commission(17%)',
+            'Tax(' . $tax_percentage . '%)',
+            'Total Cost'
+        ];
 
 
 
@@ -63,11 +74,13 @@ try {
             'user_time' => $datetime_from_ip,
             'user_ip_info' => $user_ip_info,
             'user_ip_time' => $local_time_formated->format(DATE_ATOM),
-            'insurance_data' => calculate_insurance($car_price, $tax_percentage, $number_of_policies, $week_day, $hour_of_day)
+            'insurance_data' => $insurance_data,
+            'data_keys' => $data_keys,
+            'data_labels' => $data_labels
         ]);
     });
 
-    header("HTTP/1.0 404 Not Found");
+    header('HTTP/1.0 404 Not Found');
     echo '404 Not Found';
 } catch (\Throwable $th) {
     echo json_encode(['error' => $th->getMessage()]);
