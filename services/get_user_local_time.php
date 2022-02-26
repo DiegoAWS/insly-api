@@ -13,7 +13,7 @@ function get_user_local_time()
 
     $url = "http://ipinfo.io/" . $user_ip;
     $ip_info = json_decode(file_get_contents($url));
-    echo json_encode($ip_info);
+    echo json_encode([$ip_info, $_SERVER["HTTP_CF_CONNECTING_IP"], $_SERVER['REMOTE_ADDR']]);
 
     $timezone = "dssadasf"; //$ip_info->timezone;
     $date = new DateTime(date('m/d/Y h:i:s a', time()));
