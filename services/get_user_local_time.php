@@ -30,10 +30,10 @@ function get_user_local_time()
 
     $url = "http://ipinfo.io/" . $user_ip;
     $ip_info = json_decode(file_get_contents($url));
-    echo json_encode([$ip_info, $_SERVER["HTTP_CF_CONNECTING_IP"], $_SERVER['REMOTE_ADDR']
-    , $_SERVER['HTTP_X_FORWARDED_FOR'], $_SERVER['HTTP_CLIENT_IP']
-]);
-
+ 
+    if (!isset($ip_info->loc)) {
+        return "INVALID USER IP " . $user_ip;
+    }
     $timezone = "dssadasf"; //$ip_info->timezone;
     $date = new DateTime(date('m/d/Y h:i:s a', time()));
     $date->setTimezone(new DateTimeZone($timezone));
