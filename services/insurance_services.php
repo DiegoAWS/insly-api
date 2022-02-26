@@ -45,6 +45,10 @@ function calculate_insurance($car_price, $tax_percentage, $number_of_policies, $
         'policy' => get_cost_data($car_price, $tax_percentage, $base_price_policy, true),
     ];
 
+    if($number_of_policies==1) {
+        return $output_data;
+    }
+
     $policy_price = $car_price / $number_of_policies;
 
     for ($i = 1; $i <= $number_of_policies; $i++) {
