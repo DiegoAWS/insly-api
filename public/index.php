@@ -5,10 +5,9 @@ try {
 
     require_once __DIR__ . '/../helpers/router.php';
     require_once __DIR__ . '/../helpers/cors.php';
-    require_once __DIR__ . '/../helpers/get_user_local_time.php';
-    require_once __DIR__ . '/../services/insuranceServices.php';
-
-
+    require_once __DIR__ . '/../services/get_user_local_time.php';
+    require_once __DIR__ . '/../services/insurance_services.php';
+    require_once __DIR__ . '/../validators/data_validators.php';
 
     cors();
 
@@ -21,24 +20,43 @@ try {
     router('POST', '^/api$', function () {
         header('Content-Type: application/json');
         $json = json_decode(file_get_contents('php://input'), true);
-        $car_price = $json['car_price'];
-        $tax_percentage = $json['tax_percentage'];
-        $number_of_policies = $json['number_of_policies'];
-        $local_time = $json['local_time'];
 
-        $local_time_formated = date_create($local_time);
-        // Check if any of the parameters are empty
-        if (is_null($car_price) || is_null($tax_percentage) || is_null($number_of_policies) || is_null($local_time)) {
-            echo json_encode(['error' => 'Missing parameters']);
+        $data = data_validators($json);
+
+        if (!isset($data)) {
             return;
         }
 
+        $car_price = $data['car_price'];
+        $tax_percentage = $data['tax_percentage'];
+        $number_of_policies = $data['number_of_policies'];
+        $local_time_formated = $data['local_time_formated'];
 
         $week_day = date('w', $local_time_formated->getTimestamp());
         $hour_of_day = date('H', $local_time_formated->getTimestamp());
 
+        $datetime_from_ip = get_user_local_time();
+
+        $user_time_coincide = false;
+
+        if ($datetime_from_ip instanceof DateTime) {
+
+            $week_day_from_ip = date('w', $datetime_from_ip->getTimestamp());
+            $hour_of_day_from_ip = date('H', $datetime_from_ip->getTimestamp());
+
+            $user_time_coincide = ($week_day == $week_day_from_ip && $hour_of_day == $hour_of_day_from_ip);
+
+            $datetime_from_ip=$datetime_from_ip->format(DATE_ATOM);
+        } 
+
+
+
+
+
         echo json_encode([
-            'user_ip_hour' => get_user_local_time(),
+            'user_time_coincide' => $user_time_coincide,
+            'user_time' => $datetime_from_ip,
+            'user_ip_time' => $local_time_formated->format(DATE_ATOM),
             'insurance_data' => calculate_insurance($car_price, $tax_percentage, $number_of_policies, $week_day, $hour_of_day)
         ]);
     });
