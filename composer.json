@@ -1,0 +1,13 @@
+{
+    "name": "diego/insly-api",
+    "description": "Backend simple API to Insly test",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Diego Escobar",
+            "email": "diego.developer@yahoo.com"
+        }
+    ],
+    "require": {}
+}
