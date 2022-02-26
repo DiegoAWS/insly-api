@@ -24,19 +24,40 @@ function get_user_local_time()
     $user_ip = getIPAddress();
 
     if (!filter_var($user_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-        //return "INVALID USER IP " . $user_ip;
-        $user_ip = "213.35.190.234";
+        return "INVALID USER IP " . $user_ip;
+        // $user_ip = "213.35.190.234";
     }
 
     $url = "http://ipinfo.io/" . $user_ip;
     $ip_info = json_decode(file_get_contents($url));
- 
-    if (!isset($ip_info->loc)) {
+    $timezone = $ip_info->timezone;
+
+    $city = $ip_info->city;
+    $region = $ip_info->region;
+    $country = $ip_info->country;
+
+    if (!isset($ip_info->timezone)) {
         return "INVALID USER IP " . $user_ip;
     }
-    $timezone = "dssadasf"; //$ip_info->timezone;
+
+    $location = '';
+
+    if (isset($city)) {
+        $location .= $city . " ";
+    }
+    if (isset($region)) {
+        $location .= $region . " ";
+    }
+    if (isset($country)) {
+        $location .= $country;
+    }
+
+
     $date = new DateTime(date('m/d/Y h:i:s a', time()));
     $date->setTimezone(new DateTimeZone($timezone));
 
-    return $date;
+    return [
+        'date' => $date,
+        'location' => $location
+    ];
 }

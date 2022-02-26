@@ -35,18 +35,23 @@ try {
         $week_day = date('w', $local_time_formated->getTimestamp());
         $hour_of_day = date('H', $local_time_formated->getTimestamp());
 
-        $datetime_from_ip = get_user_local_time();
+        $user_ip_info = get_user_local_time();
 
+        $datetime_from_ip='';
         $user_time_coincide = false;
 
-        if ($datetime_from_ip instanceof DateTime) {
+        // If user ip is invalid $user_ip_info will be an error message (string)
+        if (! is_string($user_ip_info)) {
 
+            $datetime_from_ip = $user_ip_info['date'];
             $week_day_from_ip = date('w', $datetime_from_ip->getTimestamp());
             $hour_of_day_from_ip = date('H', $datetime_from_ip->getTimestamp());
 
             $user_time_coincide = ($week_day == $week_day_from_ip && $hour_of_day == $hour_of_day_from_ip);
 
             $datetime_from_ip=$datetime_from_ip->format(DATE_ATOM);
+
+            $user_ip_info = $user_ip_info['location'];
         } 
 
 
@@ -56,6 +61,7 @@ try {
         echo json_encode([
             'user_time_coincide' => $user_time_coincide,
             'user_time' => $datetime_from_ip,
+            'user_ip_info' => $user_ip_info,
             'user_ip_time' => $local_time_formated->format(DATE_ATOM),
             'insurance_data' => calculate_insurance($car_price, $tax_percentage, $number_of_policies, $week_day, $hour_of_day)
         ]);
