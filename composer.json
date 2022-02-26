@@ -9,7 +9,5 @@
             "email": "diego.developer@yahoo.com"
         }
     ],
-    "require": {
-        "php": ">=7.4"
-    }
+    "require": { }
 }
