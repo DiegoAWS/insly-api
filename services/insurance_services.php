@@ -20,16 +20,16 @@ function get_cost_data($car_price, $tax_percentage, $base_price_policy, $is_base
 
     $base_premium =  roundTwoDecimals($car_price * $base_price_policy / 100);
 
-    $commision =  roundTwoDecimals($base_premium * $COMISION_TAX / 100);
+    $commission =  roundTwoDecimals($base_premium * $COMISION_TAX / 100);
 
     $tax =  roundTwoDecimals($base_premium * $tax_percentage / 100);
 
-    $total_cost =  roundTwoDecimals($base_premium + $commision + $tax);
+    $total_cost =  roundTwoDecimals($base_premium + $commission + $tax);
 
     return [
         'value' => $is_base_policy ?  $car_price : "",
         'base_premium' => $base_premium,
-        'commision' => $commision,
+        'commission' => $commission,
         'tax' => $tax,
         'total_cost' => $total_cost
 
