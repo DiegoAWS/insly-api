@@ -30,10 +30,11 @@ try {
         $car_price = $data['car_price'];
         $tax_percentage = $data['tax_percentage'];
         $number_of_policies = $data['number_of_policies'];
-        $local_time_formated = $data['local_time_formated'];
 
-        $week_day = date('w', $local_time_formated->getTimestamp());
-        $hour_of_day = date('H', $local_time_formated->getTimestamp());
+        $week_day=$data['week_day'];
+        $hour_of_day=$data['hour_of_day'];
+
+      
 
         $user_ip_info = get_user_local_time();
 
@@ -54,6 +55,7 @@ try {
             $user_ip_info = $user_ip_info['location'];
         }
 
+
         $base_price_policy = get_base_price_policy($week_day, $hour_of_day);
 
         $insurance_data = calculate_insurance($car_price, $tax_percentage, $number_of_policies, $base_price_policy);
@@ -73,7 +75,6 @@ try {
             'user_time_coincide' => $user_time_coincide,
             'user_time' => $datetime_from_ip,
             'user_ip_info' => $user_ip_info,
-            'user_ip_time' => $local_time_formated->format(DATE_ATOM),
             'insurance_data' => $insurance_data,
             'data_keys' => $data_keys,
             'data_labels' => $data_labels
