@@ -77,6 +77,7 @@ try {
             'user_ip_info' => $user_ip_info,
             'insurance_data' => $insurance_data,
             'data_keys' => $data_keys,
+            'base_price_policy' => $base_price_policy,
             'data_labels' => $data_labels
         ]);
     });
