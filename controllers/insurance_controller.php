@@ -19,9 +19,9 @@ function insurancePost(){
 
   
 
-    $user_ip_info ="";// get_user_local_time();
+    $user_ip_info = get_user_local_time();
 
-    $datetime_from_ip = date_create();
+    $datetime_from_ip = "";
     $user_time_coincide = false;
 
     // If user ip is invalid $user_ip_info will be an error message (string)
