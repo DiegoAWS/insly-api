@@ -9,5 +9,11 @@
             "email": "diego.developer@yahoo.com"
         }
     ],
-    "require": { }
+    "require": { },
+    "config": {
+        "platform": {
+            "php": "8.1.3"
+        }
+    }
+    
 }
