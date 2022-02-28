@@ -1,6 +1,14 @@
-# Insly Project API
+# Insly Project
 
 ![Insly logo](https://i.imgur.com/0178v4J.png)
+
+- `NETLIFY Deploy` [https://insly.netlify.app](https://insly.netlify.app)
+
+## INDEX
+
+- [`Frontend solution`](https://github.com/DiegoAWS/insly#index)
+- `API solution`
+- [`SQL problem`](https://github.com/DiegoAWS/insly-sql#index)
 
 ## Task 1 - Calculator
 
