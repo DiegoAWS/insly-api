@@ -19,7 +19,9 @@ try {
     });
 
     // POST request to /api
-    router('POST', '^/api$',  insurancePost());
+    router('POST', '^/api$', function(){
+        insurancePost();
+    });
 
     // 404 on all other routes
     header('HTTP/1.0 404 Not Found');

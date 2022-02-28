@@ -25,7 +25,7 @@ function get_user_local_time()
 
     if (!filter_var($user_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
         return "INVALID USER IP " . $user_ip;
-        // $user_ip = "213.35.190.234";
+        
     }
 
     $url = "http://ipinfo.io/" . $user_ip;
